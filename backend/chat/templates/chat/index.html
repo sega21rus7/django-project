@@ -1,0 +1,21 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Main page</title>
+</head>
+
+<body>
+<div id="main"></div>
+
+<script type="application/javascript">
+  window.APP_DATA = {
+    username: "{{ request.user.get_username }}"
+  }
+</script>
+<script src="{% static 'chat/main.js' %}"></script>
+</body>
+
+</html>

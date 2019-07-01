@@ -1,0 +1,35 @@
+[*]
+charset = utf-8
+end_of_line = crlf
+trim_trailing_whitespace = true
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+
+[{*.ng, *.sht, *.html, *.shtm, *.shtml, *.htm}]
+indent_style = space
+indent_size = 2
+
+[{.babelrc, .stylelintrc, .eslintrc, jest.config, *.json, *.jsb3, *.jsb2, *.bowerrc}]
+indent_style = space
+indent_size = 2
+
+[{*.css, *.less, *.sass}]
+indent_style = space
+indent_size = 2
+
+[*.js]
+indent_style = space
+indent_size = 2
+
+[*.vue]
+indent_style = space
+indent_size = 2
+
+[*.pug]
+indent_style = space
+indent_size = 2
+
+[{*.xml, *.xsd}]
+indent_style = space
+indent_size = 2

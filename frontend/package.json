@@ -1,0 +1,46 @@
+{
+  "name": "chat-vue",
+  "version": "0.0.1",
+  "description": "Chat project frontend",
+  "main": "index.js",
+  "scripts": {
+    "dev_server": "webpack-dev-server -d --hot --inline --mode development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@ksb-dev.keysystems.local:study/andrey_django.git"
+  },
+  "author": "Dmitriev D.",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@fortawesome/fontawesome-free": "^5.9.0",
+    "autoprefixer": "^9.6.0",
+    "axios": "^0.18.1",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^2.1.1",
+    "file-loader": "^3.0.1",
+    "html-webpack-plugin": "^3.2.0",
+    "lodash": "^4.17.11",
+    "material-design-icons-iconfont": "^4.0.5",
+    "postcss-cli": "^6.1.2",
+    "postcss-css-variables": "^0.12.0",
+    "postcss-csso": "^3.0.0",
+    "postcss-loader": "^3.0.0",
+    "postcss-nested": "^4.1.2",
+    "vue": "^2.6.10",
+    "vue-loader": "^15.7.0",
+    "vue-router": "^3.0.6",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.10",
+    "vuetify": "^1.5.14",
+    "vuex": "^3.1.1",
+    "webpack": "^4.34.0",
+    "webpack-cli": "^3.3.4",
+    "webpack-dev-server": "^3.7.1"
+  },
+  "dependencies": {
+    "vuex": "^3.1.1"
+  }
+}

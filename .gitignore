@@ -1,0 +1,16 @@
+# Python module caches
+__pycache__/
+*.pyc
+
+# Python virtual environment
+/venv
+/venv[0-9]*
+
+# Pycharm settings folder
+.idea/
+
+# Local Sqlite DB
+backend/*.sqlite3
+
+# frontend
+/frontend/node_modules/
