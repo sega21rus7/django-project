@@ -65,20 +65,22 @@
       is_login: function () {
         return this.get_username.length > 0
       },
+      is_staff: function () {
+        return this.$store.getters.IS_STAFF
+      },
       headerStaticItems() {
         if (this.is_login)
           return [
-            {
-              icon: 'verified_user',
-              title: 'Admin panel',
-              root: '/admin',
-            },
             {
               icon: 'exit_to_app',
               title: 'Sign out',
               root: '/sign_out',
             },
-          ]
+            {
+              icon: 'verified_user',
+              title: 'Admin panel',
+              root: '/admin',
+            },];
       },
       headerDynamicItems() {
         if (this.is_login)
@@ -87,7 +89,7 @@
               icon: 'chat',
               title: 'Chat',
               root: '/chat',
-            },]
+            },];
         return [
           {
             icon: 'lock_open',

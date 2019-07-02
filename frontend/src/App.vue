@@ -20,6 +20,7 @@
     components: {AppSignIn, AppFooter, AppChat, AppHeader, AppHome, AppSignUp},
     created() {
       this.$store.dispatch('SET_USERNAME', window.APP_DATA.username)
+      this.$store.dispatch('SET_IS_STAFF', window.APP_DATA.is_staff)
     }
   }
 

@@ -9,7 +9,7 @@
         <template>
           <div v-if="is_login">
             <v-alert :value="true" type="success">
-              You are successfully signed in as <span class="username_style">{{ get_username }}</span>
+              You are successfully signed in as <span class="username">{{ get_username }}</span>
             </v-alert>
           </div>
           <div v-else>
@@ -34,13 +34,13 @@
       },
       is_login: function () {
         return this.get_username.length > 0
-      }
+      },
     },
   }
 </script>
 
 <style scoped>
-  .username_style {
+  .username {
     color: orange;
     text-decoration: underline;
     font-weight: bold;

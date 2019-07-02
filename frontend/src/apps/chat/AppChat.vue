@@ -79,7 +79,7 @@
     },
     mounted() {
       this.updateMessageList();
-      setInterval(this.updateMessageList, 3000)
+      setInterval(this.updateMessageList, 1000)
     },
     computed: {
       pageCount() {

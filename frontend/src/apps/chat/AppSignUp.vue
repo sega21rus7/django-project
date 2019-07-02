@@ -9,22 +9,25 @@
               <v-toolbar-title>Sign up form</v-toolbar-title>
             </v-toolbar>
             <v-card-text>
-              <v-form v-model="valid">
+              <v-form v-model="valid" @keyup.enter.native="signUp">
                 <v-text-field
-                  :rules="[rules.required, rules.username]" clearable label="Login"
+                  :rules="[rules.required].concat(rules.username)" clearable label="Login"
                   name="login" prepend-icon="person" required type="text" v-model="username">
                 </v-text-field>
-                <v-text-field :rules="rules.required" clearable label="Email" name="email"
+                <v-text-field :rules="[rules.required]" clearable label="Email" name="email"
                               prepend-icon="email" required type="text" v-model="email">
                 </v-text-field>
-                <v-text-field :append-icon="showPassword ? 'visibility' : 'visibility_off'" :rules="[rules.required, rules.password]"
+                <v-text-field :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+                              :rules="[rules.required].concat(rules.password)"
                               :type="showPassword ? 'text' : 'password'" @click:append="showPassword = !showPassword"
                               clearable id="password" label="Password" name="password"
                               prepend-icon="lock" required
                               v-model="password">
                 </v-text-field>
                 <v-text-field :append-icon="showConfirmPassword ? 'visibility' : 'visibility_off'"
-                              :rules="[rules.required, rules.password]" :type="showConfirmPassword ? 'text' : 'password'" @click:append="showConfirmPassword = !showConfirmPassword"
+                              :rules="[rules.required].concat(rules.password)"
+                              :type="showConfirmPassword ? 'text' : 'password'"
+                              @click:append="showConfirmPassword = !showConfirmPassword"
                               clearable id="confirm_password" label="Confirm password" name="password"
                               prepend-icon="lock" required
                               v-model="confirm_password">
@@ -33,13 +36,18 @@
                          type="error"
                          v-if="errors"
                 >
-                  {{errors}}
+                  <p>We found out these errors in the form. Please correct it before continue.</p>
+                  <div v-if="errors.username"><span class="fieldName">Username</span> - {{errors.username}}</div>
+                  <div v-if="errors.email"><span class="fieldName">Email</span> - {{errors.email}}</div>
+                  <div v-if="errors.password"><span class="fieldName">Password</span> - {{errors.password}}</div>
+                  <div v-if="errors.confirm_password"><span class="fieldName">Confirmed password</span> - {{errors.confirm_password}}</div>
+                  <div v-if="errors.non_field_errors"> {{errors.non_field_errors}}</div>
                 </v-alert>
               </v-form>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn @click="signUp" color="primary">Sign up</v-btn>
+              <v-btn @click="signUp" color="primary" flat v-bind:disabled="!valid">Sign up</v-btn>
             </v-card-actions>
 
           </v-card>
@@ -64,25 +72,14 @@
         confirm_password: '',
         rules: {
           required: value => !!value || 'This field must be required.',
-          username: [
-            v => v.length >= 5 || 'Login must be more than 8 characters or equal to 5'],
+          username: v => {
+            return v.length >= 5 || 'Login must be more than 5 characters or equal to 5'
+          },
           password: [
-            v => v.length >= 6 || 'Password must be more than 8 characters or equal to 6',
+            v => v.length >= 6 || 'Password must be more than 6 characters or equal to 6',
             v => v.length <= 32 || 'Password must be less than 32 characters or equal to 32',
           ],
         },
-        // usernameRules: [
-        //   v => !!v || 'Login field is required',
-        //   v => v.length >= 5 || 'Login must be more than 8 characters or equal to 5',
-        // ],
-        // passwordRules: [
-        //   v => !!v || 'Password field is required',
-        //   v => v.length >= 6 || 'Password must be more than 6 characters or equal to 6',
-        //   v => v.length <= 32 || 'Password must be less than 32 characters or equal to 32',
-        // ],
-        // emailRules: [
-        //   v => !!v || 'Email field is required',
-        // ],
         errors: null,
         showPassword: false,
         showConfirmPassword: false,
@@ -107,11 +104,14 @@
               this.errors = error.response.data;
             }
           );
-      }
+      },
     }
   }
 </script>
 
 <style scoped>
-
+  .fieldName {
+    text-decoration: underline;
+    font-weight: bold;
+  }
 </style>

@@ -12,7 +12,8 @@
 
 <script type="application/javascript">
   window.APP_DATA = {
-    username: "{{ request.user.get_username }}"
+    username: "{{ request.user.get_username }}",
+    is_staff: "{{ request.user.is_staff }}"
   }
 </script>
 <script src="{% static 'chat/main.js' %}"></script>
