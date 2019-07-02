@@ -24,9 +24,9 @@
                          v-if="errors"
                 >
                   <p>We found out these errors in the form. Please correct it before continue.</p>
-                  <div v-if="errors.username"><span class="fieldName">UserName</span>{{errors.username}}</div>
-                  <div v-if="errors.password"><span class="fieldName">Password</span> {{errors.password}}</div>
-                  <div v-if="errors.non_field_errors"> {{errors.non_field_errors}}</div>
+                  <div v-if="errors.username"><span class="fieldName">UserName</span> - {{errors.username}}</div>
+                  <div v-if="errors.password"><span class="fieldName">Password</span> - {{errors.password}}</div>
+                  <div v-if="errors.non_field_errors">{{errors.non_field_errors}}</div>
                 </v-alert>
             </v-form>
           </v-card-text>
