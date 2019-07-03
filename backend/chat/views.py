@@ -18,7 +18,7 @@ class IndexView(View):
 class UserSignOutView(View):
     def get(self, request):
         logout(request)
-        return HttpResponseRedirect("/")
+        return HttpResponseRedirect("/", status=status.HTTP_200_OK)
 
 
 class ChatMessageCreateView(generics.CreateAPIView):
@@ -55,7 +55,7 @@ class UserCreateView(generics.CreateAPIView):
             password = request.data.get('password')
             authenticate(username=username, password=password)
             login(request, user)
-            return Response('You signed up successfully.', status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -74,5 +74,5 @@ class UserLoginView(APIView):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return Response('You signed in successfully.')
+                    return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
