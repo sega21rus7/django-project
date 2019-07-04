@@ -6,7 +6,10 @@ from rest_framework.validators import UniqueValidator
 from .models import ChatMessage
 
 
-class UserListSerializer(serializers.ModelSerializer):
+# region UserSerializers
+
+
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email')
@@ -27,7 +30,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
         return data
 
 
-class UserCreateSerializer(serializers.ModelSerializer):
+class UserChangeSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'email', 'password', 'confirm_password')
@@ -41,7 +44,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         max_length=32,
         validators=[UniqueValidator(queryset=User.objects.all())]
     )
-    password = serializers.CharField(min_length=6, write_only=True, style={'input_type': 'password'})
+    password = serializers.CharField(min_length=6, style={'input_type': 'password'})
     confirm_password = serializers.CharField(min_length=6, write_only=True, style={'input_type': 'password'})
 
     def validate(self, data):
@@ -55,8 +58,18 @@ class UserCreateSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+    def update(self, instance, validated_data):
+        instance.set_password(self.validated_data['password'])
+        instance.save()
+        return instance
 
-class ChatMessageCreateSerializer(serializers.ModelSerializer):
+
+# endregion
+
+# region ChatMessageSerializers
+
+
+class ChatMessageChangeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatMessage
         fields = ('message', 'sender')
@@ -64,10 +77,16 @@ class ChatMessageCreateSerializer(serializers.ModelSerializer):
     sender = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
 
-class ChatMessageListSerializer(serializers.ModelSerializer):
+class ChatMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatMessage
         fields = ('id', 'sender', 'message', 'pub_date')
 
-    sender = UserListSerializer()
+    sender = UserSerializer()
     pub_date = serializers.DateTimeField('%d-%m-%y at %H:%M:%S')
+
+    # def tst(self):
+    #     assert isinstance(ChatMessageSerializer(many=True), ListSerializer)
+    #     assert isinstance(ChatMessageListSerializer(), ChatMessageListSerializer)
+
+# endregion
