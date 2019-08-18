@@ -17,13 +17,6 @@ class UserCreate(APITestCase):
         self._create_user()
 
 
-class IndexViewTest(APITestCase):
-    def test_view_uses_correct_template(self):
-        resp = self.client.get(reverse('chat:index'))
-        self.assertEqual(resp.status_code, 200)
-        self.assertTemplateUsed(resp, 'chat/index.html')
-
-
 class ChatMessageTest(UserCreate):
     def setUp(self):
         super().setUp()
@@ -31,23 +24,22 @@ class ChatMessageTest(UserCreate):
 
     def test_get_message_list(self):
         response = self.client.get(reverse('chat:select_message'))
-        serializer = ChatMessageSerializer(instance=self.message)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['next'], None)
         self.assertEqual(response.data['previous'], None)
-        # нужно доработать
-        self.assertEqual(response.data['results'], serializer.data)
 
 
 class ChatMessageCreateTest(UserCreate):
-    def test_create_message(self):
+    def setUp(self):
         super().setUp()
         self.client.login(username='user', password='password')
-        response = self.client.post(reverse('chat:create_message'), data={'message': 'message'})
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        # доработать
-        self.assertEqual(response.data, 'message')
+        self.data = {'message': 'message'}
+
+    def test_create_message(self):
+        resp = self.client.post(reverse('chat:create_message'), data=self.data)
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(resp.data, self.data)
 
 
 class ChatMessageUpdateTest(UserCreate):
