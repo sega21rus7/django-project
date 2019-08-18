@@ -13,4 +13,4 @@ class ChatMessage(models.Model):
         ordering = ('-pub_date',)
 
     def __str__(self):
-        return self.message
+        return '{}: {}'.format(self.sender, self.message)
