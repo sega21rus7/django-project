@@ -10,16 +10,10 @@ from chat.models import ChatMessage
 from chat.serializers import ChatMessageSerializer, UserSerializer
 
 
-# region TemplateTests
 class MainPageTemplateGetTest(TestCase):
     def test_main_page_template(self):
         response = self.client.get(reverse('chat:index'))
         self.assertTemplateUsed(response, 'chat/index.html')
-
-
-# endregion
-
-# region UserViewsTests
 
 
 class UserSignOutTest(APITestCase):
@@ -128,11 +122,6 @@ class UserDeleteTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
 
-# endregion
-
-# region ChatMessageViewsTests
-
-
 class ChatMessageListGetTest(APITestCase):
     def setUp(self):
         first_user = User.objects.create_user(username='first_user', email='first_user@mail.ru', password='password')
@@ -166,15 +155,8 @@ class ChatMessageCreateTest(APITestCase):
 
 
 class ChatMessageUpdateTest(APITestCase):
-    # my_field = 1
-
-    # @classmethod
-    # def clsmthd(cls):
-    #     cls.my_field = 2
-    #     pass
 
     def setUp(self):
-        # self.my_field = 3
         self.sender = User.objects.create_user(username='sender', email='sender@mail.ru', password='password')
         self.client.login(username='sender', password='password')
         self.message = ChatMessage.objects.create(sender=self.sender, message='hello', pub_date=datetime.now())
@@ -197,5 +179,3 @@ class ChatMessageDeleteTest(APITestCase):
     def test_delete_message(self):
         response = self.client.delete(reverse('chat:update_message', kwargs={'pk': self.message.pk}))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-
-# endregion

@@ -6,10 +6,18 @@ from django.test import TestCase
 from chat.models import ChatMessage
 
 
-class ChatMessageTest(TestCase):
+class UserCreate(TestCase):
+    def _create_user(self):
+        self.user = User.objects.create_user(username='user', password='password')
+
     def setUp(self):
-        user = User.objects.create_user(username='user', email='user@mail.ru', password='')
-        ChatMessage.objects.create(sender=user, message='hi guys', pub_date=datetime.now())
+        self._create_user()
+
+
+class ChatMessageTest(UserCreate):
+    def setUp(self):
+        super().setUp()
+        ChatMessage.objects.create(sender=self.user, message='hi guys', pub_date=datetime.now())
 
     def test_message(self):
         message = ChatMessage.objects.get(message='hi guys')
