@@ -9,18 +9,12 @@ from rest_framework.views import APIView
 from .serializers import *
 
 
-# region TemplateViews
-
-
 class IndexView(View):
     def get(self, request):
         template = 'chat/index.html'
         return render(request, template)
 
 
-# endregion
-
-# region UserViews
 class UserSignOutView(View):
     def get(self, request):
         logout(request)
@@ -32,16 +26,13 @@ class UserUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
 
 
-class UserListView(generics.ListAPIView):
+class UserView(generics.ListAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
 
 class UserCreateView(generics.CreateAPIView):
     serializer_class = UserChangeSerializer
-
-    # def get(self, request):
-    #     return Response(status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
@@ -59,9 +50,6 @@ class UserCreateView(generics.CreateAPIView):
 class UserLoginView(APIView):
     serializer_class = UserLoginSerializer
 
-    # def get(self, request):
-    #     return Response(status=status.HTTP_200_OK)
-
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
@@ -75,14 +63,11 @@ class UserLoginView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# endregion
-
-# region ChatMessageViews
 class ChatMessageCreateView(generics.CreateAPIView):
     serializer_class = ChatMessageChangeSerializer
 
 
-class ChatMessageListView(generics.ListAPIView):
+class ChatMessageView(generics.ListAPIView):
     serializer_class = ChatMessageSerializer
     queryset = ChatMessage.objects.all()
 
@@ -90,5 +75,3 @@ class ChatMessageListView(generics.ListAPIView):
 class ChatMessageUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ChatMessageChangeSerializer
     queryset = ChatMessage.objects.all()
-
-# endregion
