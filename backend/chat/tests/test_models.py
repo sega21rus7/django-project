@@ -13,4 +13,4 @@ class ChatMessageTest(TestCase):
 
     def test_message(self):
         message = ChatMessage.objects.get(message='hi guys')
-        self.assertEqual(message.sender.username, 'man')
+        self.assertEqual(message.sender.username, 'user')
