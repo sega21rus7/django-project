@@ -2,8 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 
 from chat.models import ChatMessage
-from chat.serializers import ChatMessageChangeSerializer, ChatMessageSerializer, \
-    UserChangeSerializer, UserSerializer
+from chat.serializers import ChatMessageChangeSerializer, ChatMessageSerializer
 
 
 class UserCreate(TestCase):
@@ -39,31 +38,3 @@ class ChatMessageSerializerTest(UserCreate):
 
         self.assertEqual(data['id'], 1)
         self.assertEqual(data['message'], 'hello')
-
-
-class UserSerializerTest(UserCreate):
-    def setUp(self):
-        super().setUp()
-        self.serializer = UserSerializer(instance=self.user)
-
-    def test_user_contains_expected_data(self):
-        data = self.serializer.data
-        self.assertEqual(len(data), 3)
-        self.assertEqual(data['id'], 1)
-        self.assertEqual(data['username'], 'user')
-        self.assertEqual(data['email'], '')
-
-
-class UserChangeSerializerTest(UserCreate):
-    def setUp(self):
-        super().setUp()
-        self.serializer = UserChangeSerializer(instance=self.user)
-
-    def test_user_contains_expected_data(self):
-        data = self.serializer.data
-        self.assertEqual(len(data), 3)
-
-        self.assertEqual(data['username'], 'user')
-        self.assertEqual(data['email'], '')
-        self.assertEqual(data['password'], self.user.password)
-
