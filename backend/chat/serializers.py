@@ -6,9 +6,6 @@ from rest_framework.validators import UniqueValidator
 from .models import ChatMessage
 
 
-# region UserSerializers
-
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -64,11 +61,6 @@ class UserChangeSerializer(serializers.ModelSerializer):
         return instance
 
 
-# endregion
-
-# region ChatMessageSerializers
-
-
 class ChatMessageChangeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatMessage
@@ -84,9 +76,3 @@ class ChatMessageSerializer(serializers.ModelSerializer):
 
     sender = UserSerializer()
     pub_date = serializers.DateTimeField('%d-%m-%y at %H:%M:%S')
-
-    # def tst(self):
-    #     assert isinstance(ChatMessageSerializer(many=True), ListSerializer)
-    #     assert isinstance(ChatMessageListSerializer(), ChatMessageListSerializer)
-
-# endregion
