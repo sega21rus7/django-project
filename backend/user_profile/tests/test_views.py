@@ -1,26 +1,24 @@
-from datetime import datetime
-
 from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from chat.models import ChatMessage
-from chat.serializers import ChatMessageSerializer, UserSerializer
 
-
-class UserCreate(APITestCase):
+class TestTemplate(APITestCase):
     def _create_user(self):
         self.user = User.objects.create_user(username='user', password='password')
 
+    def setUpExtra(self):
+        pass
+
     def setUp(self):
         self._create_user()
+        self.setUpExtra()
 
 
 # исправить ошибку в самом функционале, стр. возвращает код 302
-class UserSignOutViewTest(UserCreate):
-    def setUp(self):
-        super().setUp()
+class UserSignOutViewTest(TestTemplate):
+    def setUpExtra(self):
         self.client.login(username='user', password='password')
 
     def test_user_sign_out(self):
@@ -29,10 +27,7 @@ class UserSignOutViewTest(UserCreate):
         self.assertFalse(self.user.is_authenticated)
 
 
-class UserViewTest(UserCreate):
-    def setUp(self):
-        super().setUp()
-
+class UserViewTest(TestTemplate):
     def test_get_users_list(self):
         response = self.client.get(reverse('user_profile:select_user'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -57,9 +52,8 @@ class UserCreateViewTest(APITestCase):
         self.assertEqual(resp.data, self.data)
 
 
-class UserLoginViewTest(UserCreate):
-    def setUp(self):
-        super().setUp()
+class UserLoginViewTest(TestTemplate):
+    def setUpExtra(self):
         self.data = {
             'username': 'user',
             'password': 'password'
@@ -71,11 +65,8 @@ class UserLoginViewTest(UserCreate):
         self.assertTrue('user' in resp.data.values())
 
 
-class UserUpdateDeleteViewTest(UserCreate):
+class UserUpdateDeleteViewTest(TestTemplate):
     # изменить функционал, исправить ошибки
-    def setUp(self):
-        super().setUp()
-
     def test_user_data_update(self):
         data = {
             'username': 'new_username',
@@ -91,4 +82,3 @@ class UserUpdateDeleteViewTest(UserCreate):
     def test_delete_user(self):
         response = self.client.delete(reverse('user_profile:update_user', kwargs={'pk': self.user.pk}))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-
