@@ -22,7 +22,7 @@ class UserSignOutViewTest(TestTemplate):
         self.client.login(username='user', password='password')
 
     def test_user_sign_out(self):
-        response = self.client.get(reverse('chat:sign_out'))
+        response = self.client.get(reverse('user_profile:sign_out'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertFalse(self.user.is_authenticated)
 

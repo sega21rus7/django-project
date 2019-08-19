@@ -1,5 +1,5 @@
 from django.contrib.auth import logout, login
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic.base import View
 from rest_framework import generics, status
@@ -12,7 +12,7 @@ from .serializers import *
 class UserSignOutView(View):
     def get(self, request):
         logout(request)
-        return redirect(reverse('chat:index'), status=status.HTTP_200_OK)
+        return redirect(reverse('chat:index'))
 
 
 class UserUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):

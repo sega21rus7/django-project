@@ -74,12 +74,12 @@
             {
               icon: 'exit_to_app',
               title: 'Sign out',
-              root: '/sign_out',
+              root: '/sign_out/',
             },
             {
               icon: 'verified_user',
               title: 'Admin panel',
-              root: '/admin',
+              root: '/admin/',
             },];
       },
       headerDynamicItems() {
@@ -88,18 +88,18 @@
             {
               icon: 'chat',
               title: 'Chat',
-              root: '/chat',
+              root: '/chat/',
             },];
         return [
           {
             icon: 'lock_open',
             title: 'Sign up',
-            root: '/sign_up',
+            root: '/sign_up/',
           },
           {
             icon: 'input',
             title: 'Sign in',
-            root: '/sign_in',
+            root: '/sign_in/',
           },
         ]
       },
