@@ -9,17 +9,20 @@ from chat.models import ChatMessage
 from chat.serializers import ChatMessageSerializer
 
 
-class UserCreate(APITestCase):
+class TestTemplate(APITestCase):
     def _create_user(self):
         self.user = User.objects.create_user(username='user', password='password')
 
+    def setUpExtra(self):
+        pass
+
     def setUp(self):
         self._create_user()
+        self.setUpExtra()
 
 
-class ChatMessageTest(UserCreate):
-    def setUp(self):
-        super().setUp()
+class ChatMessageTest(TestTemplate):
+    def setUpExtra(self):
         self.message = ChatMessage.objects.create(sender=self.user, message='hello', pub_date=datetime.now())
 
     def test_get_message_list(self):
@@ -30,9 +33,8 @@ class ChatMessageTest(UserCreate):
         self.assertEqual(response.data['previous'], None)
 
 
-class ChatMessageCreateTest(UserCreate):
-    def setUp(self):
-        super().setUp()
+class ChatMessageCreateTest(TestTemplate):
+    def setUpExtra(self):
         self.client.login(username='user', password='password')
         self.data = {'message': 'message'}
 
@@ -42,9 +44,8 @@ class ChatMessageCreateTest(UserCreate):
         self.assertEqual(resp.data, self.data)
 
 
-class ChatMessageUpdateTest(UserCreate):
-    def setUp(self):
-        super().setUp()
+class ChatMessageUpdateTest(TestTemplate):
+    def setUpExtra(self):
         self.client.login(username='user', password='password')
         self.message = ChatMessage.objects.create(sender=self.user, message='hello', pub_date=datetime.now())
 
@@ -56,9 +57,8 @@ class ChatMessageUpdateTest(UserCreate):
         self.assertEqual(response.data, data)
 
 
-class ChatMessageDeleteTest(UserCreate):
-    def setUp(self):
-        super().setUp()
+class ChatMessageDeleteTest(TestTemplate):
+    def setUpExtra(self):
         self.client.login(username='user', password='password')
         self.message = ChatMessage.objects.create(sender=self.user, message='hello', pub_date=datetime.now())
 
