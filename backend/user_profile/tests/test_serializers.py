@@ -4,17 +4,20 @@ from django.test import TestCase
 from user_profile.serializers import UserSerializer, UserChangeSerializer
 
 
-class UserCreate(TestCase):
+class TestTemplate(TestCase):
     def _create_user(self):
         self.user = User.objects.create_user(username='user', password='password')
 
+    def setUpExtra(self):
+        pass
+
     def setUp(self):
         self._create_user()
+        self.setUpExtra()
 
 
-class UserSerializerTest(UserCreate):
-    def setUp(self):
-        super().setUp()
+class UserSerializerTest(TestTemplate):
+    def setUpExtra(self):
         self.serializer = UserSerializer(instance=self.user)
 
     def test_user_contains_expected_data(self):
@@ -25,9 +28,8 @@ class UserSerializerTest(UserCreate):
         self.assertEqual(data['email'], '')
 
 
-class UserChangeSerializerTest(UserCreate):
-    def setUp(self):
-        super().setUp()
+class UserChangeSerializerTest(TestTemplate):
+    def setUpExtra(self):
         self.serializer = UserChangeSerializer(instance=self.user)
 
     def test_user_contains_expected_data(self):
