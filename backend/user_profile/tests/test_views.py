@@ -16,14 +16,13 @@ class TestTemplate(APITestCase):
         self.setUpExtra()
 
 
-# исправить ошибку в самом функционале, стр. возвращает код 302
 class UserSignOutViewTest(TestTemplate):
     def setUpExtra(self):
         self.client.login(username='user', password='password')
 
     def test_user_sign_out(self):
         response = self.client.get(reverse('user_profile:sign_out'))
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
         self.assertFalse(self.user.is_authenticated)
 
 
