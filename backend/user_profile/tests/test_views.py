@@ -35,15 +35,44 @@ class UserViewTest(TestBase):
 class UserCreateViewTest(APITestCase):
     def setUp(self):
         self.data = {
-            'username': 'example',
-            'email': 'example@mail.ru',
+            'username': 'user2',
+            'email': 'user2@mail.ru',
             'password': 'password',
             'confirm_password': 'password'
         }
+        self.empty_data = self.data.fromkeys(self.data, '')
+        self.create_url = 'user_profile:create_user'
 
-    def test_create_user(self):
-        resp = self.client.post(reverse('user_profile:create_user'), data=self.data)
+    def test_create(self):
+        resp = self.client.post(reverse(self.create_url), data=self.data)
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+
+        self.assertTrue(User.objects.filter(username=self.data['username']).exists())
+
+    def test_create_failed(self):
+        # передаем пустые данные
+        resp = self.client.post(reverse(self.create_url), data=self.empty_data)
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+
+        self.assertTrue('username' in resp.data)
+        self.assertTrue('email' in resp.data)
+        self.assertTrue('password' in resp.data)
+        self.assertTrue('confirm_password' in resp.data)
+
+        # передаем невалидные данные
+        data = {
+            'username': '1',
+            'email': '1',
+            'password': '1',
+            'confirm_password': '1'
+        }
+        resp = self.client.post(reverse(self.create_url), data=data)
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+
+        self.assertTrue('username' in resp.data)
+        self.assertTrue('email' in resp.data)
+        self.assertTrue('password' in resp.data)
+        self.assertTrue('confirm_password' in resp.data)
 
 
 class UserLoginViewTest(TestBase):
