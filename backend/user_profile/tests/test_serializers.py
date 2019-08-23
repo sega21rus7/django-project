@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
 from django.test import TestCase
 
@@ -22,8 +23,7 @@ class UserSerializerTest(TestBase):
 
     def test_user_contains_expected_data(self):
         data = self.serializer.data
-        self.assertEqual(len(data), 3)
-        self.assertEqual(data['id'], 1)
+        self.assertEqual(data['id'], self.user.id)
         self.assertEqual(data['username'], 'user')
         self.assertEqual(data['email'], '')
 
@@ -38,4 +38,4 @@ class UserChangeSerializerTest(TestBase):
 
         self.assertEqual(data['username'], 'user')
         self.assertEqual(data['email'], '')
-        self.assertEqual(data['password'], 'password')
+        self.assertTrue(check_password('password',data['password']))

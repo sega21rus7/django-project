@@ -38,5 +38,5 @@ class ChatMessageSerializerTest(TestBase):
         self.assertEqual(len(data), 4)
         self.assertEqual(len(data['sender']), 3)
 
-        self.assertEqual(data['id'], 1)
+        self.assertEqual(data['id'], self.message.id)
         self.assertEqual(data['message'], 'message')

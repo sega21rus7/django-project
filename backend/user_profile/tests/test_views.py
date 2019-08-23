@@ -69,7 +69,6 @@ class UserUpdateDeleteViewTest(TestBase):
         response = self.client.put(reverse('user_profile:update_user', kwargs={'pk': self.user.pk}),
                                    data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, data)
 
     def test_delete(self):
         response = self.client.delete(reverse('user_profile:update_user', kwargs={'pk': self.user.pk}))

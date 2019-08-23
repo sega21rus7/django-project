@@ -20,48 +20,40 @@ class TestBase(APITestCase):
         self.setUpExtra()
 
 
-class ChatMessageTest(TestBase):
+class ChatMessageViewTest(TestBase):
     def setUpExtra(self):
         self.message = ChatMessage.objects.create(sender=self.user, message='message', pub_date=datetime.now())
 
-    def test_get_message_list(self):
+    def test_get_list(self):
         response = self.client.get(reverse('chat:select_message'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['count'], 1)
 
 
-class ChatMessageCreateTest(TestBase):
+class ChatMessageCreateViewTest(TestBase):
     def setUpExtra(self):
         self.client.login(username='user', password='password')
         self.data = {'message': 'message'}
 
-    def test_create_message(self):
+    def test_create(self):
         resp = self.client.post(reverse('chat:create_message'), data=self.data)
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
 
 
-class ChatMessageUpdateTest(TestBase):
+class ChatMessageUpdateDeleteViewTest(TestBase):
     def setUpExtra(self):
         self.client.login(username='user', password='password')
         self.message = ChatMessage.objects.create(sender=self.user, message='message', pub_date=datetime.now())
 
     def test_update_message(self):
-        data = {'message': 'message'}
+        data = {'message': 'new_message'}
         response = self.client.put(reverse('chat:update_message', kwargs={'pk': self.message.pk}),
                                    data=data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-
-class ChatMessageDeleteTest(TestBase):
-    def setUpExtra(self):
-        self.client.login(username='user', password='password')
-        self.message = ChatMessage.objects.create(sender=self.user, message='message', pub_date=datetime.now())
-
-    def test_update(self):
-        data = {'message':'new_message'}
-        response = self.client.update(reverse('chat:update_message', kwargs={'pk': self.message.pk}))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_delete(self):
         response = self.client.delete(reverse('chat:update_message', kwargs={'pk': self.message.pk}))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+
+
