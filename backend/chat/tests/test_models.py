@@ -20,8 +20,8 @@ class TestBase(TestCase):
 
 class ChatMessageTest(TestBase):
     def setUpExtra(self):
-        ChatMessage.objects.create(sender=self.user, message='hello', pub_date=datetime.now())
+        ChatMessage.objects.create(sender=self.user, message='message', pub_date=datetime.now())
 
     def test_message(self):
-        message = ChatMessage.objects.get(message='hello')
+        message = ChatMessage.objects.get(message='message')
         self.assertEqual(message.sender.username, 'user')

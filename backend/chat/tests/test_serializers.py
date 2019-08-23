@@ -19,18 +19,18 @@ class TestBase(TestCase):
 
 class ChatMessageChangeSerializerTest(TestBase):
     def setUpExtra(self):
-        self.message = ChatMessage.objects.create(sender=self.user, message='hello')
+        self.message = ChatMessage.objects.create(sender=self.user, message='message')
         self.serializer = ChatMessageChangeSerializer(instance=self.message)
 
     def test_serializer_contains_expected_data(self):
         data = self.serializer.data
-        self.assertEqual(data['message'], 'hello')
+        self.assertEqual(data['message'], 'message')
         self.assertEqual(len(data), 1)
 
 
 class ChatMessageSerializerTest(TestBase):
     def setUpExtra(self):
-        self.message = ChatMessage.objects.create(sender=self.user, message='hello')
+        self.message = ChatMessage.objects.create(sender=self.user, message='message')
         self.serializer = ChatMessageSerializer(instance=self.message)
 
     def test_serializer_contains_expected_data(self):
@@ -39,4 +39,4 @@ class ChatMessageSerializerTest(TestBase):
         self.assertEqual(len(data['sender']), 3)
 
         self.assertEqual(data['id'], 1)
-        self.assertEqual(data['message'], 'hello')
+        self.assertEqual(data['message'], 'message')
