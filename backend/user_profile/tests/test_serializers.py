@@ -4,7 +4,7 @@ from django.test import TestCase
 from user_profile.serializers import UserSerializer, UserChangeSerializer
 
 
-class TestTemplate(TestCase):
+class TestBase(TestCase):
     def _create_user(self):
         self.user = User.objects.create_user(username='user', password='password')
 
@@ -16,7 +16,7 @@ class TestTemplate(TestCase):
         self.setUpExtra()
 
 
-class UserSerializerTest(TestTemplate):
+class UserSerializerTest(TestBase):
     def setUpExtra(self):
         self.serializer = UserSerializer(instance=self.user)
 
@@ -28,7 +28,7 @@ class UserSerializerTest(TestTemplate):
         self.assertEqual(data['email'], '')
 
 
-class UserChangeSerializerTest(TestTemplate):
+class UserChangeSerializerTest(TestBase):
     def setUpExtra(self):
         self.serializer = UserChangeSerializer(instance=self.user)
 

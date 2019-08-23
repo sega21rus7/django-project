@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 
-class TestTemplate(APITestCase):
+class TestBase(APITestCase):
     def _create_user(self):
         self.user = User.objects.create_user(username='user', password='password')
 
@@ -16,7 +16,7 @@ class TestTemplate(APITestCase):
         self.setUpExtra()
 
 
-class UserSignOutViewTest(TestTemplate):
+class UserSignOutViewTest(TestBase):
     def setUpExtra(self):
         self.client.login(username='user', password='password')
 
@@ -26,7 +26,7 @@ class UserSignOutViewTest(TestTemplate):
         self.assertFalse(self.user.is_authenticated)
 
 
-class UserViewTest(TestTemplate):
+class UserViewTest(TestBase):
     def test_get_users_list(self):
         response = self.client.get(reverse('user_profile:select_user'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -51,7 +51,7 @@ class UserCreateViewTest(APITestCase):
         self.assertEqual(resp.data, self.data)
 
 
-class UserLoginViewTest(TestTemplate):
+class UserLoginViewTest(TestBase):
     def setUpExtra(self):
         self.data = {
             'username': 'user',
@@ -64,7 +64,7 @@ class UserLoginViewTest(TestTemplate):
         self.assertTrue('user' in resp.data.values())
 
 
-class UserUpdateDeleteViewTest(TestTemplate):
+class UserUpdateDeleteViewTest(TestBase):
     # изменить функционал, исправить ошибки
     def test_user_data_update(self):
         data = {

@@ -5,7 +5,7 @@ from chat.models import ChatMessage
 from chat.serializers import ChatMessageChangeSerializer, ChatMessageSerializer
 
 
-class TestTemplate(TestCase):
+class TestBase(TestCase):
     def _create_user(self):
         self.user = User.objects.create_user(username='user', password='password')
 
@@ -17,7 +17,7 @@ class TestTemplate(TestCase):
         self.setUpExtra()
 
 
-class ChatMessageChangeSerializerTest(TestTemplate):
+class ChatMessageChangeSerializerTest(TestBase):
     def setUpExtra(self):
         self.message = ChatMessage.objects.create(sender=self.user, message='hello')
         self.serializer = ChatMessageChangeSerializer(instance=self.message)
@@ -28,7 +28,7 @@ class ChatMessageChangeSerializerTest(TestTemplate):
         self.assertEqual(len(data), 1)
 
 
-class ChatMessageSerializerTest(TestTemplate):
+class ChatMessageSerializerTest(TestBase):
     def setUpExtra(self):
         self.message = ChatMessage.objects.create(sender=self.user, message='hello')
         self.serializer = ChatMessageSerializer(instance=self.message)

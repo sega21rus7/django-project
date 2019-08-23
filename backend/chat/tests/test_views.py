@@ -9,7 +9,7 @@ from chat.models import ChatMessage
 from chat.serializers import ChatMessageSerializer
 
 
-class TestTemplate(APITestCase):
+class TestBase(APITestCase):
     def _create_user(self):
         self.user = User.objects.create_user(username='user', password='password')
 
@@ -21,7 +21,7 @@ class TestTemplate(APITestCase):
         self.setUpExtra()
 
 
-class ChatMessageTest(TestTemplate):
+class ChatMessageTest(TestBase):
     def setUpExtra(self):
         self.message = ChatMessage.objects.create(sender=self.user, message='hello', pub_date=datetime.now())
 
@@ -33,7 +33,7 @@ class ChatMessageTest(TestTemplate):
         self.assertEqual(response.data['previous'], None)
 
 
-class ChatMessageCreateTest(TestTemplate):
+class ChatMessageCreateTest(TestBase):
     def setUpExtra(self):
         self.client.login(username='user', password='password')
         self.data = {'message': 'message'}
@@ -44,7 +44,7 @@ class ChatMessageCreateTest(TestTemplate):
         self.assertEqual(resp.data, self.data)
 
 
-class ChatMessageUpdateTest(TestTemplate):
+class ChatMessageUpdateTest(TestBase):
     def setUpExtra(self):
         self.client.login(username='user', password='password')
         self.message = ChatMessage.objects.create(sender=self.user, message='hello', pub_date=datetime.now())
@@ -57,7 +57,7 @@ class ChatMessageUpdateTest(TestTemplate):
         self.assertEqual(response.data, data)
 
 
-class ChatMessageDeleteTest(TestTemplate):
+class ChatMessageDeleteTest(TestBase):
     def setUpExtra(self):
         self.client.login(username='user', password='password')
         self.message = ChatMessage.objects.create(sender=self.user, message='hello', pub_date=datetime.now())

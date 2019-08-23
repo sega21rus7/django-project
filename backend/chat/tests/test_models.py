@@ -6,7 +6,7 @@ from django.test import TestCase
 from chat.models import ChatMessage
 
 
-class TestTemplate(TestCase):
+class TestBase(TestCase):
     def _create_user(self):
         self.user = User.objects.create_user(username='user', password='password')
 
@@ -18,7 +18,7 @@ class TestTemplate(TestCase):
         self.setUpExtra()
 
 
-class ChatMessageTest(TestTemplate):
+class ChatMessageTest(TestBase):
     def setUpExtra(self):
         ChatMessage.objects.create(sender=self.user, message='hello', pub_date=datetime.now())
 
