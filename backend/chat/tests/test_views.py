@@ -19,6 +19,9 @@ class TestBase(APITestCase):
         self._create_user()
         self.setUpExtra()
 
+    def tearDown(self):
+        self.client.logout()
+
 
 class ChatMessageViewTest(TestBase):
     def setUpExtra(self):
@@ -54,6 +57,3 @@ class ChatMessageUpdateDeleteViewTest(TestBase):
     def test_delete(self):
         response = self.client.delete(reverse('chat:update_message', kwargs={'pk': self.message.pk}))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-
-
-

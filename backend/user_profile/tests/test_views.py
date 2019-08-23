@@ -15,6 +15,9 @@ class TestBase(APITestCase):
         self._create_user()
         self.setUpExtra()
 
+    def tearDown(self):
+        self.client.logout()
+
 
 class UserSignOutViewTest(TestBase):
     def setUpExtra(self):
