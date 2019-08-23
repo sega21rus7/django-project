@@ -38,4 +38,4 @@ class UserChangeSerializerTest(TestBase):
 
         self.assertEqual(data['username'], 'user')
         self.assertEqual(data['email'], '')
-        self.assertEqual(data['password'], self.user.password)
+        self.assertEqual(data['password'], 'password')
